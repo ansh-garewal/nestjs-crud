@@ -1,29 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity';
-import { JwtModule } from '@nestjs/jwt/dist';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './user.schema';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres', 
-      password: 'ansh1234', 
-      database: 'nestjs-crud',
-      entities:[User],
-      synchronize: true, 
-    }),
-
-    TypeOrmModule.forFeature([User]),
+    MongooseModule.forRoot('mongodb+srv://anshgarewal:ansh1234@test.oac8d0e.mongodb.net/'),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
-      secret : 'secret',
-      signOptions: {expiresIn:'1d'}
-    })
-
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -59,7 +59,7 @@ export class AppController {
       throw new BadRequestException('Invalid credentials!');
     }
 
-    const jwt = this.jwtService.signAsync({id: user.id});
+    const jwt = this.jwtService.signAsync({id: user.email});
 
     response.cookie('jwt' , jwt ,{httpOnly : true})
 
